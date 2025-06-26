@@ -16,7 +16,7 @@ const Shortener = () => {
       const headers = await getAuthHeader();
 
       const response = await axios.post(
-        'http://127.0.0.1:8000/api/shorten',
+        'https://be-url-shortener.onrender.com/api/shorten',
         { url },
         { headers }
       );
@@ -38,7 +38,7 @@ const Shortener = () => {
       const headers = headersOverride || await getAuthHeader();
 
       const response = await axios.get(
-        `http://localhost:8000/api/stats/${shortCode}`,
+        `https://be-url-shortener.onrender.com/api/stats/${shortCode}`,
         { headers }
       );
 

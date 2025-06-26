@@ -13,7 +13,7 @@ const StatsPage = () => {
     const fetchStats = async () => {
       try {
         const headers = await getAuthHeader();
-        const response = await axios.get(`http://localhost:8000/api/stats/${code}`, {
+        const response = await axios.get(`https://be-url-shortener.onrender.com/api/stats/${code}`, {
           headers: {
             ...headers,
             Accept: 'application/json',

@@ -12,7 +12,7 @@ const GetCodes = () => {
     const fetchCodes = async () => {
       try {
         const headers = await getAuthHeader(); // ✅ use the utility
-        const response = await axios.get('http://127.0.0.1:8000/api/getcodes', {
+        const response = await axios.get('https://be-url-shortener.onrender.com/api/getcodes', {
           headers: {
             ...headers,
             Accept: 'application/json',
