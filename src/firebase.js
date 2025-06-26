@@ -3,12 +3,12 @@ import { getAuth } from "firebase/auth";
 
 // ✅ Replace with your actual config
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: "AIzaSyD8EzyNVt3o4GxxyOfeaHJnlpxy6JlGPhI",
+  authDomain: "url-shortener-18438.firebaseapp.com",
+  projectId: "url-shortener-18438",
+  storageBucket: "url-shortener-18438.firebasestorage.app",
+  messagingSenderId: "140546962726",
+  appId: "1:140546962726:web:982c521e0c1b43d1837de7"
 };
 
 const app = initializeApp(firebaseConfig);
