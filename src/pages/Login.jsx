@@ -16,7 +16,7 @@ const Login = () => {
 
       // Send the token to your backend
       const response = await axios.post(
-        "http://localhost:8000/api/sync-user",
+        "https://be-url-shortener.onrender.com/api/sync-user",
         {}, // no body needed
         {
             headers: {

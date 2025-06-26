@@ -20,7 +20,7 @@ const Register = () => {
 
       // Optional: Send user info to backend to store more details
       const response = await axios.post(
-        "http://localhost:8000/api/sync-user",
+        "https://be-url-shortener.onrender.com/api/sync-user",
         {}, // no body needed
         {
             headers: {
