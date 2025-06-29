@@ -1,22 +1,18 @@
 import React from 'react';
-import API from '../api/axios';
+import Header from '../components/Header'; // ✅ Add Header
+import '../styles/Dashboard.css';
 
-export default function Dashboard() {
-  const logout = async () => {
-    try {
-      await API.post('/logout');
-      localStorage.removeItem('token');
-      alert('Logged out');
-      window.location.href = '/login';
-    } catch (err) {
-      alert('Logout failed');
-    }
-  };
-
+const Dashboard = () => {
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <button onClick={logout}>Logout</button>
-    </div>
+    <>
+      <Header /> {/* ✅ Include header */}
+      <div className="dashboard-container">
+        <h1>Welcome to the URL Shortener!</h1>
+        <p>Use this simple tool to shorten your links and track stats.</p>
+        
+      </div>
+    </>
   );
-}
+};
+
+export default Dashboard;

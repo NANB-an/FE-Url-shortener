@@ -22,7 +22,7 @@ const Login = () => {
         {},
         { headers: { Authorization: `Bearer ${idToken}` } }
       );
-      navigate("/shortener");
+      navigate("/");
     } catch (error) {
       console.error("Email/Password Login failed:", error.message);
     }
@@ -38,7 +38,7 @@ const Login = () => {
         {},
         { headers: { Authorization: `Bearer ${idToken}` } }
       );
-      navigate("/shortener");
+      navigate("/");
     } catch (error) {
       console.error("Google Sign-In failed:", error.message);
     }
@@ -67,11 +67,11 @@ const Login = () => {
       <hr className="login-separator" />
 
       <button onClick={handleGoogleLogin} className="google-btn">
-        Sign in with Google
+        Sign in/Register with Google
       </button>
 
       <p className="register-link">
-        Don’t have an account? <Link to="/register">Register here</Link>
+        Don’t have an account? <Link to="/register">Register Email here</Link>
       </p>
     </div>
   );

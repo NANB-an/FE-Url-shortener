@@ -9,12 +9,15 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Shortener from './components/Shortener';
 import GetCodes from './pages/GetCodes';
 import StatsPage from './pages/StatsPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
+        <Route path="/" element={<Dashboard />} /> 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
@@ -52,6 +55,7 @@ function App() {
           }
         />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

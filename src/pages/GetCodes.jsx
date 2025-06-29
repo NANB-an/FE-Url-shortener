@@ -7,6 +7,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/GetCodes.css';
+import { showSuccess, showError } from "../utils/toast";
 
 const GetCodes = () => {
   const [codes, setCodes] = useState([]);
@@ -29,6 +30,7 @@ const GetCodes = () => {
           window.location.href = '/login';
         } else {
           setError(err.response?.data?.message || 'Network error');
+          
         }
       } finally {
         setLoading(false);
@@ -40,9 +42,9 @@ const GetCodes = () => {
 
   const handleCopy = (url) => {
   navigator.clipboard.writeText(url).then(() => {
-    toast.success('Short link copied to clipboard!');
+    showSuccess('Short link copied to clipboard!');
   }).catch(err => {
-    toast.error('Failed to copy link.');
+    showError('Failed to copy link.');
     console.error(err);
   });
 };
@@ -103,7 +105,7 @@ const GetCodes = () => {
           <p className="codes-status">No codes found.</p>
         )}
       </div>
-      <ToastContainer position="top-right" autoClose={2000} />
+      
     </>
   );
 };
