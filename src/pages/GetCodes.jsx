@@ -2,26 +2,31 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuthHeader } from '../utils/authHeader';
+import Header from '../components/Header';
+import { QRCodeSVG } from 'qrcode.react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../styles/GetCodes.css';
 
 const GetCodes = () => {
   const [codes, setCodes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const baseUrl = 'https://be-url-shortener.onrender.com/r/'; // Replace with your actual domain
+
   useEffect(() => {
     const fetchCodes = async () => {
       try {
-        const headers = await getAuthHeader(); // ✅ use the utility
-        const response = await axios.get('https://be-url-shortener.onrender.com/api/getcodes', {
-          headers: {
-            ...headers,
-            Accept: 'application/json',
-          },
-        });
+        const headers = await getAuthHeader();
+        const response = await axios.get(
+          'https://be-url-shortener.onrender.com/api/getcodes',
+          { headers: { ...headers, Accept: 'application/json' } }
+        );
         setCodes(response.data);
       } catch (err) {
         if (err.response?.status === 401) {
-          window.location.href = '/login'; // optional: redirect if unauthorized
+          window.location.href = '/login';
         } else {
           setError(err.response?.data?.message || 'Network error');
         }
@@ -33,20 +38,73 @@ const GetCodes = () => {
     fetchCodes();
   }, []);
 
-  if (loading) return <p>Loading codes...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const handleCopy = (url) => {
+  navigator.clipboard.writeText(url).then(() => {
+    toast.success('Short link copied to clipboard!');
+  }).catch(err => {
+    toast.error('Failed to copy link.');
+    console.error(err);
+  });
+};
 
   return (
-    <div>
-      <h2>Your Short Codes</h2>
-      <ul>
-        {codes.map((code, index) => (
-          <li key={index}>
-            <Link to={`/stats/${code}`}>{code}</Link>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Header />
+
+      <div className="codes-container">
+        <h2 className="codes-title">Your Short Codes</h2>
+
+        {loading && <p className="codes-status">Loading codes...</p>}
+        {error && <p className="codes-status error">Error: {error}</p>}
+
+        {!loading && !error && codes.length > 0 && (
+          <table className="codes-table">
+            <thead>
+              <tr>
+                <th>Short Code</th>
+                <th>Original URL</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {codes.map((item, index) => {
+                const shortUrl = `${baseUrl}${item.short_code}`;
+                return (
+                  <tr key={index}>
+                    <td>
+                      <Link to={`/stats/${item.short_code}`}>{item.short_code}</Link>
+                    </td>
+                    <td>
+                      <a href={item.original_url} target="_blank" rel="noopener noreferrer">
+                        {item.original_url.length > 60
+                          ? `${item.original_url.slice(0, 60)}…`
+                          : item.original_url}
+                      </a>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleCopy(shortUrl)}
+                        className="copy-btn"
+                      >
+                        Copy Link
+                      </button>
+                      <div className="qr-code">
+                        <QRCodeSVG value={shortUrl} size={64} />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+
+        {!loading && !error && codes.length === 0 && (
+          <p className="codes-status">No codes found.</p>
+        )}
+      </div>
+      <ToastContainer position="top-right" autoClose={2000} />
+    </>
   );
 };
 

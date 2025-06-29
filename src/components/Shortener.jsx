@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { auth } from '../firebase';
-import { getAuthHeader } from '../utils/authHeader'; // ✅ Reuse shared auth header function
-import Logout from '../pages/Logout';
+import { getAuthHeader } from '../utils/authHeader';
+import Header from '../components/Header'; // ✅ Import new Header
+import '../styles/Shortener.css';
 
 const Shortener = () => {
   const [url, setUrl] = useState('');
@@ -53,60 +53,59 @@ const Shortener = () => {
   };
 
   return (
-    <div>
-      <h2>Logout</h2>
-      {auth.currentUser && (
-        <button onClick={Logout}>Logout</button>
-      )}
+    <>
+      <Header /> {/* ✅ Reusable header */}
 
-      <h2>URL Shortener</h2>
+      <div className="shortener-container">
+        <form onSubmit={handleSubmit} className="shortener-form">
+          <input
+            type="url"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            placeholder="Enter URL"
+            required
+          />
+          <button type="submit">Shorten</button>
+        </form>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="url"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          placeholder="Enter URL"
-          required
-        />
-        <button type="submit">Shorten</button>
-      </form>
+        {shortUrl && (
+          <div className="short-url">
+            <p>
+              Short URL: <a href={shortUrl} target="_blank" rel="noreferrer">{shortUrl}</a>
+            </p>
+            <button onClick={handleRefresh} className="refresh-btn">🔄 Refresh Stats</button>
+          </div>
+        )}
 
-      {shortUrl && (
-        <div>
-          <p>Short URL: <a href={shortUrl} target="_blank" rel="noreferrer">{shortUrl}</a></p>
-          <button onClick={handleRefresh}>🔄 Refresh Stats</button>
-        </div>
-      )}
+        {stats && (
+          <div className="stats">
+            <h3>Stats:</h3>
+            <p><strong>Total Clicks:</strong> {stats.total_clicks}</p>
 
-      {stats && (
-        <div>
-          <h3>Stats:</h3>
-          <p><strong>Total Clicks:</strong> {stats.total_clicks}</p>
+            <h4>By Country:</h4>
+            <ul>
+              {Object.entries(stats.by_country).map(([country, count]) => (
+                <li key={country}>{country}: {count}</li>
+              ))}
+            </ul>
 
-          <h4>By Country:</h4>
-          <ul>
-            {Object.entries(stats.by_country).map(([country, count]) => (
-              <li key={country}>{country}: {count}</li>
-            ))}
-          </ul>
+            <h4>By Referrer:</h4>
+            <ul>
+              {Object.entries(stats.by_referrer).map(([ref, count]) => (
+                <li key={ref}>{ref}: {count}</li>
+              ))}
+            </ul>
 
-          <h4>By Referrer:</h4>
-          <ul>
-            {Object.entries(stats.by_referrer).map(([ref, count]) => (
-              <li key={ref}>{ref}: {count}</li>
-            ))}
-          </ul>
-
-          <h4>Timestamps:</h4>
-          <ul>
-            {stats.timestamps.map((ts, i) => (
-              <li key={i}>{ts}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </div>
+            <h4>Timestamps:</h4>
+            <ul>
+              {stats.timestamps.map((ts, i) => (
+                <li key={i}>{ts}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

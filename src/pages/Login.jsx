@@ -1,42 +1,79 @@
 // src/components/Login.js
+
 import React, { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase";
 import axios from "axios";
+import { Link , useNavigate } from "react-router-dom"; // ✅ make sure you're using react-router-dom
+import "../styles/Login.css"; // ✅ import your styles
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const idToken = await userCredential.user.getIdToken();
-
-      // Send the token to your backend
-      const response = await axios.post(
+      await axios.post(
         "https://be-url-shortener.onrender.com/api/sync-user",
-        {}, // no body needed
-        {
-            headers: {
-            Authorization: `Bearer ${idToken}`,
-            },
-        }
-        );
-
-      console.log("Backend Response:", response.data);
+        {},
+        { headers: { Authorization: `Bearer ${idToken}` } }
+      );
+      navigate("/shortener");
     } catch (error) {
-      console.error("Login failed", error.message);
+      console.error("Email/Password Login failed:", error.message);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+      await axios.post(
+        "https://be-url-shortener.onrender.com/api/sync-user",
+        {},
+        { headers: { Authorization: `Bearer ${idToken}` } }
+      );
+      navigate("/shortener");
+    } catch (error) {
+      console.error("Google Sign-In failed:", error.message);
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-      <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
+    <div className="login-container">
+      <h2>Login</h2>
+
+      <form onSubmit={handleLogin} className="login-form">
+        <input
+          type="email"
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+        />
+        <input
+          type="password"
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Login with Email</button>
+      </form>
+
+      <hr className="login-separator" />
+
+      <button onClick={handleGoogleLogin} className="google-btn">
+        Sign in with Google
+      </button>
+
+      <p className="register-link">
+        Don’t have an account? <Link to="/register">Register here</Link>
+      </p>
+    </div>
   );
 };
 

@@ -1,16 +1,13 @@
-import { signOut } from "firebase/auth";
-import {auth} from "../firebase";
+import React from "react";
+import Logout from "../pages/Logout";
+import "../styles/Logout.css";
 
+const LogoutPage = () => {
+  return (
+    <button className="logout-btn" onClick={Logout}>
+      Logout
+    </button>
+  );
+};
 
-const Logout = async () => {
-    try {
-        await signOut(auth);
-        localStorage.removeItem('token');
-        alert('Logged out');
-        window.location.href = '/login';
-    } catch (err) {
-        alert('Logout failed');
-    }
-}
-
-export default Logout
+export default LogoutPage;

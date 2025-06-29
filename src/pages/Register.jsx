@@ -1,36 +1,34 @@
 // src/components/Register.js
+
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import axios from "axios";
+import { Link, useNavigate} from "react-router-dom"; // ✅ make sure react-router-dom is used
+import "../styles/Register.css"; // ✅ import your styles
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(""); // optional name field
+  const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setMessage("");
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-      const idToken = await user.getIdToken();
-
-      // Optional: Send user info to backend to store more details
-      const response = await axios.post(
+      const idToken = await userCredential.user.getIdToken();
+      await axios.post(
         "https://be-url-shortener.onrender.com/api/sync-user",
-        {}, // no body needed
-        {
-            headers: {
-            Authorization: `Bearer ${idToken}`,
-            },
-        }
-        );
+        {},
+        { headers: { Authorization: `Bearer ${idToken}` } }
+      );
+      
 
-      setMessage("Registered and request sent successfully.");
-      console.log("Backend response:", response.data);
+      setMessage("Registered successfully.");
+      navigate("/Login");
     } catch (error) {
       console.error("Registration failed:", error.message);
       setMessage("Error: " + error.message);
@@ -38,42 +36,45 @@ const Register = () => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "auto", padding: "1rem" }}>
+    <div className="register-container">
       <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Name</label>
-          <input
-            type="text"
-            required
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={{ width: "100%", padding: "0.5rem" }}
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Email</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", padding: "0.5rem" }}
-          />
-        </div>
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Password</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", padding: "0.5rem" }}
-          />
-        </div>
-        <button type="submit" style={{ padding: "0.5rem 1rem" }}>Register</button>
+
+      <form onSubmit={handleRegister} className="register-form">
+        <label>Name</label>
+        <input
+          type="text"
+          required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Your Name"
+        />
+
+        <label>Email</label>
+        <input
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Your Email"
+        />
+
+        <label>Password</label>
+        <input
+          type="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Your Password"
+        />
+
+        <button type="submit">Register</button>
       </form>
-      {message && <p style={{ marginTop: "1rem", color: "green" }}>{message}</p>}
+
+      {message && <p className="register-message">{message}</p>}
+
+      <p className="login-link">
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
     </div>
   );
 };

@@ -1,0 +1,69 @@
+/* src/styles/Register.css */
+
+body {
+  background: #f5f6fa;
+  font-family: 'Inter', sans-serif;
+}
+
+.register-container {
+  max-width: 400px;
+  margin: 8rem auto;
+  padding: 3rem 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+.register-container h2 {
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.75rem;
+  color: #333;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-form label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.register-form input {
+  padding: 0.85rem 1rem;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+}
+
+.register-form input:focus {
+  border-color: #28a745;
+  outline: none;
+}
+
+.register-form button {
+  padding: 0.85rem;
+  background: #28a745;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+.register-form button:hover {
+  background: #1e7e34;
+}
+
+.register-message {
+  margin-top: 1rem;
+  color: #28a745;
+  text-align: center;
+  font-weight: 500;
+}
