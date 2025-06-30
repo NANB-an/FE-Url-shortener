@@ -1,20 +1,20 @@
+// src/pages/GetCodes.jsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getAuthHeader } from '../utils/authHeader';
 import Header from '../components/Header';
 import { QRCodeSVG } from 'qrcode.react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import '../styles/GetCodes.css';
 import { showSuccess, showError } from "../utils/toast";
+import '../styles/GetCodes.css';
 
 const GetCodes = () => {
   const [codes, setCodes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const baseUrl = 'https://be-url-shortener.onrender.com/r/'; // Replace with your actual domain
+  const baseUrl = 'https://be-url-shortener.onrender.com/r/';
 
   useEffect(() => {
     const fetchCodes = async () => {
@@ -30,7 +30,6 @@ const GetCodes = () => {
           window.location.href = '/login';
         } else {
           setError(err.response?.data?.message || 'Network error');
-          
         }
       } finally {
         setLoading(false);
@@ -41,13 +40,13 @@ const GetCodes = () => {
   }, []);
 
   const handleCopy = (url) => {
-  navigator.clipboard.writeText(url).then(() => {
-    showSuccess('Short link copied to clipboard!');
-  }).catch(err => {
-    showError('Failed to copy link.');
-    console.error(err);
-  });
-};
+    navigator.clipboard.writeText(url).then(() => {
+      showSuccess('Short link copied to clipboard!');
+    }).catch(err => {
+      showError('Failed to copy link.');
+      console.error(err);
+    });
+  };
 
   return (
     <>
@@ -73,17 +72,17 @@ const GetCodes = () => {
                 const shortUrl = `${baseUrl}${item.short_code}`;
                 return (
                   <tr key={index}>
-                    <td>
+                    <td data-label="Short Code">
                       <Link to={`/stats/${item.short_code}`}>{item.short_code}</Link>
                     </td>
-                    <td>
+                    <td data-label="Original URL">
                       <a href={item.original_url} target="_blank" rel="noopener noreferrer">
                         {item.original_url.length > 60
                           ? `${item.original_url.slice(0, 60)}…`
                           : item.original_url}
                       </a>
                     </td>
-                    <td>
+                    <td data-label="Actions">
                       <button
                         onClick={() => handleCopy(shortUrl)}
                         className="copy-btn"
@@ -105,7 +104,6 @@ const GetCodes = () => {
           <p className="codes-status">No codes found.</p>
         )}
       </div>
-      
     </>
   );
 };

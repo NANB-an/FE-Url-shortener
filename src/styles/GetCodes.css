@@ -13,6 +13,7 @@
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   color: #333;
+  text-align: center;
 }
 
 .codes-status {
@@ -48,24 +49,91 @@
 .codes-table a {
   color: #007bff;
   text-decoration: underline;
+  word-break: break-word;
 }
 
 .codes-table a:hover {
   color: #0056b3;
 }
+
 .codes-table td {
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
 .copy-btn {
+  margin-top: 0.5rem;
   margin-right: 10px;
-  padding: 4px 8px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
   cursor: pointer;
 }
 
 .qr-code {
   display: inline-block;
   margin-top: 5px;
+}
+
+/* --- Responsive tweaks --- */
+@media screen and (max-width: 768px) {
+  .codes-container {
+    padding: 1rem;
+    margin: 2rem 1rem;
+  }
+
+  .codes-table,
+  .codes-table thead,
+  .codes-table tbody,
+  .codes-table th,
+  .codes-table td,
+  .codes-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .codes-table thead tr {
+    display: none;
+  }
+
+  .codes-table tr {
+    margin-bottom: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .codes-table td {
+    text-align: center;
+    display: flex;
+  
+    align-items: center;
+    padding: 0.75rem;
+    border: none;
+    border-bottom: 1px solid #dee2e6;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: initial;
+  }
+
+  .codes-table td:last-child {
+    border-bottom: none;
+  }
+
+  .codes-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    margin-right: 1rem;
+    flex-shrink: 0;
+  }
+
+  .copy-btn {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .qr-code {
+    margin-top: 0.5rem;
+  }
 }
