@@ -1,12 +1,23 @@
-# React + Vite
+# 🔗 FE URL Shortener
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple, responsive **URL Shortener Frontend** built with **React**.  
+This project connects to a backend API to generate short links quickly and makes sharing links hassle-free.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+✅ Modern React app with clean component structure  
+✅ Input long URLs & get short URLs instantly  
+✅ Copy short links to clipboard with one click  
+✅ Simple, minimal design for easy customization  
+✅ Plug-and-play — connect to any backend URL shortening API
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## ⚙️ Tech Stack
+
+- **React**
+- **JavaScript**
+- **CSS / TailwindCSS** (if used)
+- **Axios or Fetch API** for backend
