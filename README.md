@@ -19,5 +19,5 @@ This project connects to a backend API to generate short links quickly and makes
 
 - **React**
 - **JavaScript**
-- **CSS / TailwindCSS** (if used)
+- **CSS** (if used)
 - **Axios or Fetch API** for backend
